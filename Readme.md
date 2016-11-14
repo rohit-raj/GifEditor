@@ -1,0 +1,1 @@
+## This is a gif editor library to enhance gif images or edit them.
