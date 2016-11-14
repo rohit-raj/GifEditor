@@ -1,7 +1,6 @@
-import sun.nio.ch.Net;
-
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 
 /**
@@ -10,25 +9,25 @@ import java.io.InputStream;
 public class GifEditor {
     public static void main(String[] args) {
         byte [] image = null;
-        String contextUrl = "";
-        String ext = "";
-        if(ext.equalsIgnoreCase("gif")) {
-            image = Net.getUrlContent(contextUrl);
-            InputStream inputStream = new ByteArrayInputStream(image);
-            ImageFrame[] imageFrames = GifCom.readGif(inputStream);
-            for (int i = 0; i < imageFrames.length; i++) {
-                //code to put banner on the gif frames of the image
-                BufferedImage images = Commons.putBannerOnAdKD(imageFrames[i].getImage());
-                BufferedImage images = Commons.putBannerOnAdKD(imageFrames[i].getImage());
-                imageFrames[i].setImage(images);
-            }
-            try {
-                image = saveAnimate(imageFrames);
-            } catch (Exception e) {
-                //Error processing the Image Stream
-                System.out.println("Error in Gif Image frames patching");
-                e.printStackTrace();
-                //return ok(BlockDrawing.getEmptyImage()).as("image/png");
-            }
+        InputStream inputStream = new ByteArrayInputStream(image);
+        ImageFrame[] imageFrames = null;
+        try {
+            imageFrames = GifCom.readGif(inputStream);
+        } catch (IOException ex) {
+            System.out.println(ex.getLocalizedMessage());
+        }
+        for (int i = 0; i < imageFrames.length; i++) {
+            //code to put banner on the gif frames of the image
+            BufferedImage images = new BufferedImage(100,100,1);
+            imageFrames[i].setImage(images);
+        }
+        try {
+            image = WriteAnimatedGif.saveAnimate(imageFrames);
+        } catch (Exception e) {
+            //Error processing the Image Stream
+            System.out.println("Error in Gif Image frames patching");
+            e.printStackTrace();
+            //return ok(BlockDrawing.getEmptyImage()).as("image/png");
+        }
     }
 }

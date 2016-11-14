@@ -26,7 +26,7 @@ public class GifCom {
      * @throws IOException
      */
     public static ImageFrame[] readGif (InputStream stream) throws IOException {
-        ArrayList<ImageFrame> frames = new ArrayList<>();
+        ArrayList<ImageFrame> frames = new ArrayList();
         ImageReader reader = ImageIO.getImageReadersByFormatName("gif").next();
         reader.setInput(ImageIO.createImageInputStream(stream));
         int lastx = 0;
